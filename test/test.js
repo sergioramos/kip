@@ -187,6 +187,5 @@ test('headers', function () {
 })
 
 after(function () {
-  fs.unlink(__dirname + '/static/example.js.gz')
   server.close()
 })
