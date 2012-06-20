@@ -4,7 +4,7 @@ Node.js HTTP streaming static server
 
 ### api
 
-    var dosiero = require('../')(__dirname + '/static'),
+    var dosiero = require('dosiero')(__dirname + '/static'),
         http = require('http')
     
     var server = require('http').createServer(function (req, res) {
