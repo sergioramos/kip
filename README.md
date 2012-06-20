@@ -1,4 +1,4 @@
-# dosiero
+# dosiero [![Build Status](https://secure.travis-ci.org/ramitos/dosiero.png?branch=master)](http://travis-ci.org/ramitos/dosiero)
 
 Node.js HTTP streaming static server
 
