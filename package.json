@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha test -u qunit -R spec"
+    "test": "mocha test -u qunit -R spec; rm test/static/example.js.gz"
   },
   "dependencies": {
     "mime": "1.2.x",
