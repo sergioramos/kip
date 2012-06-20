@@ -1,0 +1,28 @@
+{
+  "author": "Sérgio Ramos <mail@sergioramos.me> (sergioramos.me)",
+  "name": "dosiero",
+  "description": "Node.js HTTP static server",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ramitos/dosiero.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test -u qunit -R spec"
+  },
+  "dependencies": {
+    "mime": "1.2.x",
+    "moment": "1.6.x",
+    "seq": "0.3.x"
+  },
+  "devDependencies": {
+    "mocha": "1.2.x",
+    "request": "2.9.x",
+    "loremipstream": "0.0.x",
+    "buffertools": "1.0.x"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
