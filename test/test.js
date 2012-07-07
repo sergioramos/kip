@@ -9,6 +9,8 @@ var dosiero = require('../')(__dirname + '/static'),
     buffer = require('buffertools'),
     zlib = require('zlib')
 
+
+
 var server = require('http').createServer(function (req, res) {
   dosiero(req, res)
 }).listen(1337)
