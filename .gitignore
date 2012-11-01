@@ -15,3 +15,9 @@ node_modules
 npm-debug.log
 
 .DS_Store
+
+/.kipignore
+/index.html
+/test.js
+/test3.html
+/teste2.html

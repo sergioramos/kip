@@ -1,28 +1,20 @@
 {
-  "author": "Sérgio Ramos <mail@sergioramos.me> (sergioramos.me)",
-  "name": "dosiero",
-  "description": "Node.js HTTP static server",
+  "name": "kip",
   "version": "0.0.3",
+  "description": "Node.js HTTP static server",
+  "author": "Sérgio Ramos <mail@sergioramos.me> (sergioramos.me)",
+  "main": "kip.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/ramitos/dosiero.git"
   },
-  "main": "dosiero.js",
-  "scripts": {
-    "test": "mocha test -u qunit -R spec; rm test/static/example.js.gz"
-  },
   "dependencies": {
-    "mime": "1.2.x",
-    "moment": "1.6.x",
-    "seq": "0.3.x"
-  },
-  "devDependencies": {
-    "mocha": "1.3.x",
-    "request": "2.9.x",
-    "loremipstream": "0.0.x",
-    "buffertools": "1.0.x"
-  },
-  "engines": {
-    "node": ">=0.6"
+    "negotiator": "0.2.x",
+    "fs-tools": "0.2.x",
+    "watch": "0.5.x",
+    "async": "0.1.x",
+    "bytes": "0.2.x",
+    "glob": "3.1.x",
+    "mime": "1.2.x"
   }
 }

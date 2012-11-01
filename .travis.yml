@@ -2,4 +2,3 @@ language: node_js
 node_js:
   - 0.6
 script: 'mocha test -u qunit -R spec'
-after_script:  'rm test/static/example.js.gz'
