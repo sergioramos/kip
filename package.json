@@ -6,7 +6,7 @@
   "main": "kip.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ramitos/dosiero.git"
+    "url": "git://github.com/ramitos/kip.git"
   },
   "dependencies": {
     "negotiator": "0.2.x",
