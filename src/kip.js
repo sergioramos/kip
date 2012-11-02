@@ -66,17 +66,15 @@ var kip = function (root, opts) {
     if(!filter.ignored(file)) return
     
     var cetag = req.headers['if-none-match']
-    var mtime = moment(stat.mtime).valueOf()
-    var headers = Object()
-    var cmatch = Object()
+    var mtime = Date.parse(stat.mtime)
     
     var setag = [stat.ino, stat.size, mtime].join('-').toString()
-    var cmtime = moment(req.headers['if-modified-since'])
+    var cmtime = Date.parse(req.headers['if-modified-since'])
     
-    res.setHeader('Last-Modified', moment(stat.mtime).toDate().toUTCString())
-    res.setHeader('Date', moment().toDate().toUTCString())
+    res.setHeader('Last-Modified', new Date(stat.mtime).toUTCString())
+    res.setHeader('Date', new Date().toUTCString())
     res.setHeader('ETag', setag)
-        
+    
     if(!is.modified(cmtime, cetag, setag, mtime)) return finish(res, 304)
     
     var ctype = mime.lookup(file)
@@ -98,5 +96,5 @@ var kip = function (root, opts) {
 }
 
 is.modified = function (cmtime, cetag, setag, mtime) {
-  return (cmtime || cetag) && (!cetag || cetag === setag) && (!cmtime || cmtime >= mtime)
+  return !((cmtime || cetag) && (!cetag || cetag === setag) && (!cmtime || cmtime >= mtime))
 }

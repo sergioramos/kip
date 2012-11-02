@@ -42,7 +42,7 @@ module.exports.send = function (res, cache, file, encoding) {
 }
 
 module.exports.cached = function (res, cache, headers) {
-  res.setHeader('Content-Length', cache.length)
   res.statusCode = 200
-  res.end(cache.buffer)
+  res.write(cache.buffer)
+  res.end()
 }
