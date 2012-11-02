@@ -10,11 +10,9 @@ var errs = {
 
 module.exports.options = function (opts, callback) {
   if(!(opts instanceof Object)) opts = Object()
-  
+  if(typeof opts.maxage !== 'number') opts.maxage = 0
   if(typeof opts.cache !== 'string') opts.cache = '0kb'
-  if(typeof opts.cc !== 'string') opts.cc = 'etags'
   opts.cache = bytes(opts.cache)
-  
   return opts
 }
 

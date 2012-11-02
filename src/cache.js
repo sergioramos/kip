@@ -4,7 +4,12 @@ var interpolate = require('util').format,
     path = require('path'),
     fs = require('fs')
 
-var encodings = Array('gzip', 'compress', 'identity')
+var encodings = Array('gzip', 'deflate', 'compress', 'identity')
+var fn = Object()
+
+fn.gzip = zlib.createGzip
+fn.compress = zlib.createDeflate
+fn.deflate = zlib.createDeflate
 
 var hstream = function (stream, callback) {
   var content = Array()
@@ -44,9 +49,9 @@ module.exports = function (limit, root, monitor) {
   }
   
   on.changed = function (file) {
-    if(cache['compress'][file]) update('compress', file, zlib.createDeflate())
-    if(cache['gzip'][file]) update('gzip', file, zlib.createGzip())
-    if(cache['identity'][file]) update('identity', file)
+    encodings.forEach(function (encoding) {
+      if(cache[encoding][file]) update(encoding, file, fn[encoding])
+    })
   }
   
   on.removed = function (file) {

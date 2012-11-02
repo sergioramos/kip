@@ -1,6 +1,18 @@
 var zlib = require('zlib'),
     fs = require('fs')
 
+var fn = Object()
+
+fn.identity = function (res, cache, file) {
+  var fss = fs.createReadStream(file)
+  hstream(cache, file, 'identity', fss)
+  fss.pipe(res)
+}
+
+fn.gzip = zlib.createGzip
+fn.compress = zlib.createDeflate
+fn.deflate = zlib.createDeflate
+
 var hstream = function (cache, file, encoding, stream, res) {
   var content = Array()
   
@@ -17,35 +29,20 @@ var hstream = function (cache, file, encoding, stream, res) {
   return stream
 }
 
-module.exports = function (res, code, headers) {
-  res.writeHead(code, headers)
+module.exports = function (res, code) {
+  res.statusCode = code
   res.end()
 }
 
-module.exports.gzip = function (res, cache, headers, file) {
-  res.writeHead(200, headers)
-  var handle = hstream(cache, file, 'gzip', zlib.createGzip(), res)
-  fs.createReadStream(file).pipe(handle)
-}
-
-module.exports.compress = function (res, cache, headers, file) {
-  res.writeHead(200, headers)
-  var handle = hstream(cache, file, 'compress', zlib.createDeflate())
+module.exports.send = function (res, cache, file, encoding) {
+  res.statusCode = 200
+  if(encoding === 'identity') return fn.identity(res, cache, file)
+  var handle = hstream(cache, file, encoding, fn[encoding](), res)
   fs.createReadStream(file).pipe(handle).pipe(res)
 }
 
-module.exports.identity = function (res, cache, headers, file) {
-  res.writeHead(200, headers)
-  var fss = fs.createReadStream(file)
-  hstream(cache, file, 'identity', fsas)
-  fss.pipe(res)
-}
-
 module.exports.cached = function (res, cache, headers) {
-  headers['Content-Length'] = cache.length
-  res.writeHead(200, headers)
-  zlib.gunzip(cache.buffer, function () {
-    console.log(arguments[1].toString())
-  })
+  res.setHeader('Content-Length', cache.length)
+  res.statusCode = 200
   res.end(cache.buffer)
 }
