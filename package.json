@@ -1,6 +1,6 @@
 {
   "name": "kip",
-  "version": "0.0.3",
+  "version": "0.0.1alpha",
   "description": "Node.js HTTP static server",
   "author": "Sérgio Ramos <mail@sergioramos.me> (sergioramos.me)",
   "main": "kip.js",
