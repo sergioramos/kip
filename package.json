@@ -1,9 +1,9 @@
 {
   "name": "kip",
-  "version": "0.0.1alpha",
+  "version": "0.0.2alpha",
   "description": "Node.js HTTP static server",
   "author": "Sérgio Ramos <mail@sergioramos.me> (sergioramos.me)",
-  "main": "kip.js",
+  "main": "src/kip.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/ramitos/kip.git"
