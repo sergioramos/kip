@@ -4,7 +4,7 @@
 
  * automatic `content-type` negotiation
  * `gzip`/`deflate` support
- * adjustable `manage`/`expires`
+ * adjustable `maxage`/`expires`
  * `fs.stat` cached and monitored to update on `fs` changes
  * adjustable file cache size
  * cache monitors file changes and updates his contents
