@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+var print = require('./templates/print'),
+    argv = require('optimist').argv,
+    blage = require('blage'),
+    path = require('path'),
+    http = require('http'),
+    kip = require('../')
+
+var root = argv._.shift()
+var opts = Object()
+
+if(argv.h || argv.help || !root) return print.help()
+if(argv.ma) opts.maxage = argv.ma
+if(argv.c) opts.cache = argv.c
+else opts.cache = '10mb'
+
+var handler = blage(kip(path.resolve(root), opts))
+var server = http.createServer(handler).listen()
+
+print.started({port: server.address().port, opts: opts})
