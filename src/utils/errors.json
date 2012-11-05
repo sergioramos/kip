@@ -1,0 +1,4 @@
+{
+  "required": "path prop is required",
+  "directory": "path is not a directory"
+}

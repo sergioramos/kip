@@ -1,10 +1,11 @@
 var Negotiator = require('negotiator').Negotiator,
+    encodings = require('./utils/encodings'),
     interpolate = require('util').format,
+    parse = require('./utils/parsers'),
     Monitor = require('./monitor'),
     ignored = require('./ignored'),
-    parse = require('./parsers'),
-    Cache = require('./cache'),
     finish = require('./finish'),
+    Cache = require('./cache'),
     moment = require('moment'),
     mime = require('mime'),
     Map = require('./map'),
@@ -40,7 +41,7 @@ var kip = function (root, opts) {
   
   which.encoding = function (req) {
     var negotiator = new Negotiator(req)
-    return negotiator.preferredEncoding(Array('gzip', 'deflate', 'compress', 'identity'))
+    return negotiator.preferredEncoding(encodings)
   }
     
   filter.method = function (req, res) {

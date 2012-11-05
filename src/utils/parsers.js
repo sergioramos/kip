@@ -1,12 +1,8 @@
-var bytes = require('bytes'),
+var errors = require('./errors'),
+    bytes = require('bytes'),
     async = require('async'),
     path = require('path'),
     fs = require('fs')
-
-var errs = {
-  required: 'path prop is required',
-  directory: 'path is not a directory'
-}
 
 module.exports.options = function (opts, callback) {
   if(!(opts instanceof Object)) opts = Object()
@@ -21,7 +17,7 @@ module.exports.root = function (root) {
   
   stat(root, function (e, stat) {
     if(e) throw e
-    if(!stat.isDirectory()) throw new Error(errs.directory)
+    if(!stat.isDirectory()) throw new Error(errors.directory)
   })
   
   return root

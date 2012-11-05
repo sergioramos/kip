@@ -1,32 +1,12 @@
-var zlib = require('zlib'),
+var compressors = require('./utils/compressors'),
+    shandler = require('./utils/streamhandler'),
+    zlib = require('zlib'),
     fs = require('fs')
 
-var fn = Object()
-
-fn.identity = function (res, cache, file) {
+compressors.identity = function (res, cache, file) {
   var fss = fs.createReadStream(file)
   hstream(cache, file, 'identity', fss)
   fss.pipe(res)
-}
-
-fn.gzip = zlib.createGzip
-fn.compress = zlib.createDeflate
-fn.deflate = zlib.createDeflate
-
-var hstream = function (cache, file, encoding, stream, res) {
-  var content = Array()
-  
-  stream.on('data', function (data) {
-    content.push(data)
-  })
-  
-  stream.on('end', function () {
-    var buff = Buffer.concat(content)
-    cache.set(encoding, file, buff)
-    res.end()
-  })
-  
-  return stream
 }
 
 module.exports = function (res, code) {
@@ -36,13 +16,13 @@ module.exports = function (res, code) {
 
 module.exports.send = function (res, cache, file, encoding) {
   res.statusCode = 200
-  if(encoding === 'identity') return fn.identity(res, cache, file)
-  var handle = hstream(cache, file, encoding, fn[encoding](), res)
+  if(encoding === 'identity') return compressors.identity(res, cache, file)
+  var handle = hstream(cache, file, encoding, compressors[encoding](), res)
   fs.createReadStream(file).pipe(handle).pipe(res)
 }
 
 module.exports.cached = function (res, cache, headers) {
+  res.setHeader('Content-Length', cache.buffer.length)
   res.statusCode = 200
-  res.write(cache.buffer)
-  res.end()
+  res.end(cache.buffer)
 }

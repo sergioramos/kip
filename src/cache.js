@@ -1,28 +1,11 @@
-var interpolate = require('util').format,
+var compressors = require('./utils/compressors'),
+    shandler = require('./utils/streamhandler'),
+    encodings = require('./utils/encodings'),
+    interpolate = require('util').format,
     buffer = require('buffer'),
     zlib = require('zlib'),
     path = require('path'),
     fs = require('fs')
-
-var encodings = Array('gzip', 'deflate', 'compress', 'identity')
-var fn = Object()
-
-fn.gzip = zlib.createGzip
-fn.compress = zlib.createDeflate
-fn.deflate = zlib.createDeflate
-
-var hstream = function (stream, callback) {
-  var content = Array()
-
-  stream.on('data', function (data) {
-    content.push(data)
-  })
-
-  stream.on('end', function () {
-    var buf = Buffer.concat(content)
-    callback(buf)
-  })
-}
 
 module.exports = function (limit, root, monitor) {
   var returns = Object()
@@ -39,44 +22,13 @@ module.exports = function (limit, root, monitor) {
     if(!stream) stream = fs.createReadStream(file)
     else fs.createReadStream(file).pipe(stream)
 
-    hstream(stream, function (buf) {
+    shandler(null, stream, null, null, null, function (buf) {
       var entry = cache[encoding][file]
-      bl -= entry.length
+      bl += entry.length
       entry.buffer = buf
-      entry.length = Buffer.byteLength(buf.toString())
+      entry.length = buf.length
       while(bl > limit) reduce()
     })
-  }
-  
-  on.changed = function (file) {
-    encodings.forEach(function (encoding) {
-      if(cache[encoding][file]) update(encoding, file, fn[encoding])
-    })
-  }
-  
-  on.removed = function (file) {
-    encodings.forEach(function (encoding) {
-      if(cache[encoding][file]) {
-        bl -= cache[encoding][file].length
-        delete cache[encoding][file]
-      }
-    })
-  }
-  
-  returns.get = function (encoding, file) {
-    return cache[encoding][file]
-  }
-  
-  returns.set = function (encoding, file, buffer) {
-    if(limit === 0) return
-    var entry = Object()
-    entry.length = Buffer.byteLength(buffer.toString())
-    entry.buffer = buffer
-    
-    while((entry.length + bl) > limit) reduce()
-    
-    cache[encoding][file] = entry
-    bl += entry.length
   }
   
   var reduce = function () {
@@ -89,13 +41,39 @@ module.exports = function (limit, root, monitor) {
     bl -= length
   }
   
-  var ensure = function () {
-    if(bl <= limit) return
-    
+  on.changed = function (file) {
+    encodings.forEach(function (encoding) {
+      if(cache[encoding][file]) update(encoding, file, compressors[encoding])
+    })
+  }
+  
+  on.removed = function (file) {
+    encodings.forEach(function (encoding) {
+      if(cache[encoding][file]) {
+        bl -= cache[encoding][file].length
+        delete cache[encoding][file]
+      }
+    })
   }
   
   monitor.on('changed', on.changed)
   monitor.on('removed', on.removed)
+  
+  returns.get = function (encoding, file) {
+    return cache[encoding][file]
+  }
+  
+  returns.set = function (encoding, file, buffer) {
+    if(limit === 0) return
+    var entry = Object()
+    entry.length = buffer.length
+    entry.buffer = buffer
+    
+    while((entry.length + bl) > limit) reduce()
+    
+    cache[encoding][file] = entry
+    bl += entry.length
+  }
   
   return returns
 }

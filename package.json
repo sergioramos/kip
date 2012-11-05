@@ -10,12 +10,15 @@
   },
   "dependencies": {
     "negotiator": "0.2.x",
+    "hogan.js": "2.0.x",
     "fs-tools": "0.2.x",
+    "optimist": "0.3.x",
     "moment": "1.7.x",
     "watch": "0.5.x",
     "async": "0.1.x",
     "bytes": "0.2.x",
     "glob": "3.1.x",
-    "mime": "1.2.x"
+    "mime": "1.2.x",
+    "blage": "0.0.5"
   }
 }

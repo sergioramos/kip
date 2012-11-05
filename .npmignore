@@ -19,8 +19,6 @@ npm-debug.log
 /.git
 /.gitignore
 /.kipignore
-/index.html
+/*.html
 /test.js
-/test3.html
-/teste2.html
 /test
