@@ -63,8 +63,8 @@ var kip = function (root, opts) {
     var file = which.file(req.url)
     var stat = map[file]
     if(!stat) return next()
-    if(!filter.method(req)) return
-    if(!filter.ignored(file)) return
+    if(!filter.method(req, res)) return
+    if(!filter.ignored(file, res)) return
     
     var cetag = req.headers['if-none-match']
     var mtime = Date.parse(stat.mtime)
@@ -72,6 +72,8 @@ var kip = function (root, opts) {
     var setag = [stat.ino, stat.size, mtime].join('-').toString()
     var cmtime = Date.parse(req.headers['if-modified-since'])
     
+    res.setHeader('Expires', moment().add('s', opts.maxage).toDate().toUTCString())
+    res.setHeader('Cache-Control', interpolate('max-age=%s, private', opts.maxage))
     res.setHeader('Last-Modified', new Date(stat.mtime).toUTCString())
     res.setHeader('Date', new Date().toUTCString())
     res.setHeader('ETag', setag)
@@ -82,8 +84,6 @@ var kip = function (root, opts) {
     var charset = mime.charsets.lookup(ctype, 'UTF-8')
     var encoding = which.encoding(req)
     
-    res.setHeader('Expires', moment().add('s', opts.maxage).toDate().toUTCString())
-    res.setHeader('Cache-Control', interpolate('max-age=%s, private', opts.maxage))
     res.setHeader('Content-Type', ctype + (charset ? '; charset=' + charset : ''))
     res.setHeader('Content-Encoding', encoding)
     res.setHeader('Vary', 'Accept-Encoding')

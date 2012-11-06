@@ -10,4 +10,6 @@ module.exports = function (res, stream, cache, encoding, file, callback) {
     cache.set(encoding, file, Buffer.concat(content))
     res.end()
   })
+  
+  return stream
 }

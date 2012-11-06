@@ -17,7 +17,7 @@ module.exports = function (res, code) {
 module.exports.send = function (res, cache, file, encoding) {
   res.statusCode = 200
   if(encoding === 'identity') return compressors.identity(res, cache, file)
-  var handle = hstream(cache, file, encoding, compressors[encoding](), res)
+  var handle = shandler(res, compressors[encoding](), cache, encoding, file)
   fs.createReadStream(file).pipe(handle).pipe(res)
 }
 

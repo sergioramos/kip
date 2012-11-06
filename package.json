@@ -1,6 +1,6 @@
 {
   "name": "kip",
-  "version": "0.0.3beta",
+  "version": "0.0.7beta",
   "description": "Node.js HTTP static server",
   "author": "Sérgio Ramos <mail@sergioramos.me> (sergioramos.me)",
   "main": "src/kip.js",
@@ -8,17 +8,21 @@
     "type": "git",
     "url": "git://github.com/ramitos/kip.git"
   },
+  "bin": {
+    "kip": "./bin/kip"
+  },
   "dependencies": {
     "negotiator": "0.2.x",
     "hogan.js": "2.0.x",
     "fs-tools": "0.2.x",
     "optimist": "0.3.x",
+    "colors": "0.6.x",
     "moment": "1.7.x",
     "watch": "0.5.x",
     "async": "0.1.x",
     "bytes": "0.2.x",
+    "blage": "0.0.x",
     "glob": "3.1.x",
-    "mime": "1.2.x",
-    "blage": "0.0.5"
+    "mime": "1.2.x"
   }
 }
