@@ -43,7 +43,6 @@ module.exports = function (limit, root, monitor) {
   
   on.changed = function (file) {
     encodings.forEach(function (encoding) {
-      console.log(typeof compressors[encoding])
       if(cache[encoding][file]) update(encoding, file, compressors[encoding]())
     })
   }
