@@ -22,3 +22,7 @@ npm-debug.log
 /*.html
 /test.js
 /test
+/benchmark
+/test.gh
+/stacks.svg
+/test.js

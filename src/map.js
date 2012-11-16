@@ -7,7 +7,11 @@ module.exports = function (root, monitor) {
   var files = Object()
   
   monitor.on('created', function (file, stat) {
-    if(!stat.isDirectory()) files[file] = stat
+    if(stat.isFile()) files[file] = stat
+  })
+  
+  monitor.on('changed', function (file, stat) {
+    if(stat.isFile()) files[file] = stat
   })
   
   monitor.on('removed', function (file) {

@@ -19,3 +19,7 @@ npm-debug.log
 /.kipignore
 /*.html
 /test.js
+/benchmark
+/stacks.*
+
+teste.gh
