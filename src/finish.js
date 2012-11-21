@@ -5,7 +5,7 @@ var compressors = require('./utils/compressors'),
 
 compressors.identity = function (res, cache, file) {
   var fss = fs.createReadStream(file)
-  hstream(cache, file, 'identity', fss)
+  shandler(res, fss, cache, 'identity', file)
   fss.pipe(res)
 }
 
