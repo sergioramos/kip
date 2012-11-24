@@ -13,6 +13,7 @@ var Negotiator = require('negotiator').Negotiator,
     url = require('url'),
     fs = require('fs')
 
+var noop = function () {}
 var is = Object()
 
 module.exports = function () {
@@ -60,6 +61,7 @@ var kip = function (root, opts) {
   }
   
   return function (req, res, next) {
+    if(typeof next !== 'function') next = noop
     var file = which.file(req.url)
     var stat = map[file]
     if(!stat) return next()
