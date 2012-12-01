@@ -64,7 +64,7 @@ var kip = function (root, opts) {
     if(typeof next !== 'function') next = noop
     var file = which.file(req.url)
     var stat = map[file]
-    if(!stat) return next()
+    if(!stat) return next(req, res)
     if(!filter.method(req, res)) return
     if(!filter.ignored(file, res)) return
     
