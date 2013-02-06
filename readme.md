@@ -26,6 +26,7 @@ use the `-g` option to use it as a cli tool
 ```bash
 $ kip
 ```
+
 ```bash
 Usage:
 
@@ -36,6 +37,7 @@ Options:
     -c cache size default: 10mb
     -ma maxage/expires default: 0s
 ```
+
 ```bash
 $ kip ./public
 ```
@@ -48,6 +50,7 @@ kip started at http://lvh.me:64761
 ## api
 
 ### kip(root, opts)
+
 ```js
 var kip = require('kip')
 var file = kip(__dirname, {cache: '10mb', maxage: 3600})
