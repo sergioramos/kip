@@ -17,7 +17,7 @@ module.exports = function (root, files, monitor) {
     return function (e, text) {
       if(e) return callback(e)
       var patterns = text.split(/\n/)
-      cwd = file.replace(/.kipignore$/, '')
+      var cwd = file.replace(/.kipignore$/, '')
       async.forEach(patterns, on.pattern(cwd), callback)
     }
   }
